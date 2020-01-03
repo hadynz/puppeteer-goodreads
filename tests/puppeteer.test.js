@@ -49,5 +49,42 @@ describe("Scrape kindle highlights for a given book", () => {
   });
 });
 
+describe("Scrape highlights pagination for a given book", () => {
+  it("standard pagination bar", async () => {
+    await loadHtmlFromFile("./tests/assets/fragment.pagination.html");
+
+    const url = "https://www.googreads.com/book1?ref=abp";
+    const paginationList = await scraper.scrapePaginationUrls(url);
+    expect(paginationList).toHaveLength(4);
+    expect(paginationList[0]).toBe(`${url}&page=1`);
+    expect(paginationList[1]).toBe(`${url}&page=2`);
+    expect(paginationList[2]).toBe(`${url}&page=3`);
+    expect(paginationList[3]).toBe(`${url}&page=4`);
+  });
+
+  it("pagination bar with ellipsis", async () => {
+    await loadHtmlFromFile("./tests/assets/fragment.pagination-ellipsis.html");
+
+    const url = "https://www.googreads.com/book1?ref=abp";
+    const paginationList = await scraper.scrapePaginationUrls(url);
+    expect(paginationList).toHaveLength(6);
+    expect(paginationList[0]).toBe(`${url}&page=1`);
+    expect(paginationList[1]).toBe(`${url}&page=2`);
+    expect(paginationList[2]).toBe(`${url}&page=3`);
+    expect(paginationList[3]).toBe(`${url}&page=4`);
+    expect(paginationList[4]).toBe(`${url}&page=5`);
+    expect(paginationList[5]).toBe(`${url}&page=6`);
+  });
+
+  it("no pagination", async () => {
+    await loadHtmlFromFile("./tests/assets/fragment.pagination-none.html");
+
+    const url = "https://www.googreads.com/book1?ref=abp";
+    const paginationList = await scraper.scrapePaginationUrls(url);
+    expect(paginationList).toHaveLength(1);
+    expect(paginationList[0]).toBe(`${url}&page=1`);
+  });
+});
+
 // await page.screenshot({ path: "screenshot.png" });
 // await jestPuppeteer.debug();
