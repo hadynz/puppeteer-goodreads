@@ -42,17 +42,7 @@ const scrapeHighlightsPaginationPageUrls = async (browser, url) => {
   const page = await browser.newPage();
   await page.goto(url);
 
-  const paginationIndices = await page.$$eval(
-    ".readingNotesPagination a:not([class])",
-    anchors => anchors.map(anchor => anchor.innerText)
-  );
-
-  const lastPageIndex = paginationIndices.slice(-1)[0] || 1;
-
-  return Array.from(
-    { length: lastPageIndex },
-    (x, i) => `${url}&page=${i + 1}`
-  );
+  return Scraper(page).scrapePaginationUrls(url);
 };
 
 (async () => {
