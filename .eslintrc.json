@@ -15,8 +15,6 @@
     "sourceType": "module"
   },
   "rules": {
-    //"no-console": "off",
-    //"comma-dangle": ["error", "never"]
     "prettier/prettier": "error"
   }
 }
