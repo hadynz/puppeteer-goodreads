@@ -86,5 +86,11 @@ describe("Scrape highlights pagination for a given book", () => {
   });
 });
 
-// await page.screenshot({ path: "screenshot.png" });
-// await jestPuppeteer.debug();
+describe("Scrape logged in user id", () => {
+  it("parse user id from navigation header links", async () => {
+    await loadHtmlFromFile("./tests/assets/fragment.header.html");
+
+    const id = await scraper.scrapeUserId();
+    expect(id).toBe("70559316");
+  });
+});

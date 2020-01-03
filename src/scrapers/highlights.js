@@ -34,5 +34,13 @@ module.exports = page => ({
       { length: lastPageIndex },
       (x, i) => `${url}&page=${i + 1}`
     );
+  },
+  scrapeUserId: async () => {
+    const topLevelMenuLinks = await page.$$eval(
+      "nav.siteHeader__primaryNavInline a.siteHeader__topLevelLink",
+      anchors => anchors.map(anchor => anchor.getAttribute("href"))
+    );
+
+    return topLevelMenuLinks[1].split("/").slice(-1)[0];
   }
 });
