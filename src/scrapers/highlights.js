@@ -15,6 +15,7 @@ module.exports = page => ({
             ).innerText
           };
         } catch (ex) {
+          // TODO: Could not parse a note. Need to communicate this fact somehow in logging or metrics
           return null;
         }
       })
