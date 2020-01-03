@@ -12,7 +12,12 @@ const loginToGoodreads = async (browser, email, password) => {
 };
 
 const scrapeListOfBooks = async browser => {
-  const url = "https://www.goodreads.com/notes/70559316/load_more";
+  const browserPages = await browser.pages();
+  const currentPage = browserPages.slice(-1)[0];
+
+  const userId = await Scraper(currentPage).scrapeUserId();
+  const url = `https://www.goodreads.com/notes/${userId}/load_more`;
+
   const page = await browser.newPage();
 
   const [response] = await Promise.all([
