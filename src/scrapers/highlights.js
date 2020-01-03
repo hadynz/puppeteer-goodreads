@@ -1,16 +1,24 @@
 module.exports = page => ({
-  scrapeHighlightsFromPageUrl: async () =>
-    await page.$$eval(".js-readingNote", notes =>
-      notes.map(note => ({
-        annotationId: note.getAttribute("data-annotation-pair-id"),
-        bookId: note.getAttribute("data-book-id"),
-        hastNote: String(note.getAttribute("data-has-note")) == "true",
-        locationPercentage: note.querySelector(
-          ".noteHighlightContainer__location"
-        ).innerText,
-        text: note.querySelector(
-          ".noteHighlightTextContainer__highlightText span:last-of-type"
-        ).innerText
-      }))
-    )
+  scrapeHighlightsFromPageUrl: async () => {
+    const notes = await page.$$eval(".js-readingNote", notesEl =>
+      notesEl.map(noteEl => {
+        try {
+          return {
+            annotationId: noteEl.getAttribute("data-annotation-pair-id"),
+            bookId: noteEl.getAttribute("data-book-id"),
+            hastNote: String(noteEl.getAttribute("data-has-note")) == "true",
+            locationPercentage: noteEl.querySelector(
+              ".noteHighlightContainer__location"
+            ).innerText,
+            text: noteEl.querySelector(
+              ".noteHighlightTextContainer__highlightText span:last-of-type"
+            ).innerText
+          };
+        } catch (ex) {
+          return null;
+        }
+      })
+    );
+    return notes.filter(n => n);
+  }
 });

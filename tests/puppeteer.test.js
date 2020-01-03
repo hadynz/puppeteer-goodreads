@@ -40,6 +40,13 @@ describe("Scrape kindle highlights for a given book", () => {
         "2. Realize that the hardest step in achieving anything is making a true commitment—a true decision. Carrying out your commitment is often much easier than the decision itself, so make your decisions intelligently, but make them quickly. Don’t labor forever over the question of how or if you can do it. Studies have shown that the most successful people make decisions rapidly because they are clear on their values and what they really want for their lives. The same studies show that they are slow to change their decisions, if at all. On the other hand, people who fail usually make decisions slowly and change their minds quickly, always bouncing back and forth. Just decide!"
     });
   });
+
+  it("ignore an empty kindle highlight from results", async () => {
+    await loadHtmlFromFile("./tests/assets/fragment.highlight-empty.html");
+
+    const highlights = await scraper.scrapeHighlightsFromPageUrl();
+    expect(highlights).toHaveLength(0);
+  });
 });
 
 // await page.screenshot({ path: "screenshot.png" });
