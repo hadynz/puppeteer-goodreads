@@ -1,5 +1,7 @@
 const puppeteer = require("puppeteer");
 
+const Scraper = require("./scrapers/highlights");
+
 const loginToGoodreads = async (browser, email, password) => {
   const page = await browser.newPage();
   await page.goto("https://www.goodreads.com/user/sign_in");
@@ -33,23 +35,7 @@ const scrapeHighlightsFromPageUrl = async (browser, url) => {
   const page = await browser.newPage();
   await page.goto(url);
 
-  console.log("url", url);
-
-  const highlights = await page.$$eval(".js-readingNote", notes =>
-    notes.map(note => ({
-      annotationId: note.getAttribute("data-annotation-pair-id"),
-      bookId: note.getAttribute("data-book-id"),
-      hastNote: String(note.getAttribute("data-has-note")) == "true",
-      locationPercentage: note.querySelector(
-        ".noteHighlightContainer__location"
-      ).innerText,
-      text: note.querySelector(
-        ".noteHighlightTextContainer__highlightText span:last-of-type"
-      ).innerText
-    }))
-  );
-
-  return highlights;
+  return Scraper(page).scrapeHighlightsFromPageUrl();
 };
 
 const scrapeHighlightsPaginationPageUrls = async (browser, url) => {
