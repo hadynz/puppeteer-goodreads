@@ -1,0 +1,21 @@
+{
+  "name": "goodreads-kindlehighlights-scraper",
+  "version": "1.0.0",
+  "description": "Scrape kindle notes and highlights from Goodreads",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Hady Osman <hadyos@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "jest": "^24.9.0",
+    "jest-puppeteer": "^4.4.0",
+    "prettier-eslint": "^9.0.1"
+  }
+}
