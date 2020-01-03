@@ -9,13 +9,21 @@ const loadHtmlFromFile = async fileName => {
   });
 };
 
-describe("Google", () => {
-  it('should be titled "Google"', async () => {
+describe("Scrape kindle highlights for a given book", () => {
+  it("standard kindle highlight is scraped accurately", async () => {
     await loadHtmlFromFile("./tests/assets/fragment.highlight.html");
 
     const highlights = await scraper.scrapeHighlightsFromPageUrl();
-    console.log(highlights);
-  }, 999999);
+    expect(highlights).toHaveLength(1);
+    expect(highlights[0]).toEqual({
+      annotationId: "aJ2HUN17A79BA%7C-0-%7C",
+      bookId: "6587033",
+      hastNote: false,
+      locationPercentage: "8%",
+      text:
+        "What is this force that is controlling you even now and will continue to do so for the rest of your life? PAIN and PLEASURE! Everything you and I do, we do either out of our need to avoid pain or our desire to gain pleasure."
+    });
+  });
 });
 
 // await page.screenshot({ path: "screenshot.png" });
