@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 require("dotenv").config();
 
 const Scraper = require("./scrapers/highlights");
@@ -48,32 +49,55 @@ const scrapeAllHighlightsForBook = async (page, book) => {
     highlights = highlights.concat(nextHighlights);
   }
 
-  console.log(
-    `Book: ${book.title}. Authored by ${book.author}. Highlights: ${highlights.length}\n`,
-    highlights
-  );
+  return highlights;
 };
 
 (async () => {
+  const {
+    GOODREADS_LOGIN: username,
+    GOODREADS_PASSWORD: password
+  } = process.env;
+
+  console.log(`Scraping Kindle highlights for Goodreads user "${username}"`);
+
+  const csvWriter = createCsvWriter({
+    path: "highlights.csv",
+    header: [
+      { id: "asin", title: "Amazon ID" },
+      { id: "title", title: "Book" },
+      { id: "author", title: "Author" },
+      { id: "annotationId", title: "Annotation ID" },
+      { id: "highlight", title: "Highlight" }
+    ]
+  });
+
   const browser = await puppeteer.launch({
-    headless: false
+    // headless: false
     // slowMo: 250
   });
 
-  const page = await loginToGoodreads(
-    browser,
-    process.env.GOODREADS_LOGIN,
-    process.env.GOODREADS_PASSWORD
-  );
-
+  const page = await loginToGoodreads(browser, username, password);
   const books = await scrapeListOfBooks(page);
 
-  for (let i = 4; i < 6; i++) {
-    const book = books[i];
+  for (const book of books) {
+    const newPage = await browser.newPage();
 
-    let newPage = await browser.newPage();
-    await scrapeAllHighlightsForBook(newPage, book);
+    console.log(`Scraping "${book.title}" by "${book.author}"`);
+
+    const highlights = await scrapeAllHighlightsForBook(newPage, book);
+
+    await csvWriter.writeRecords(
+      highlights.map(highlight => ({
+        asin: book.asin,
+        title: book.title,
+        author: book.author,
+        annotationId: highlight.annotationId,
+        highlight: highlight.text
+      }))
+    );
   }
 
   await browser.close();
+
+  console.log("Completed scraping all Kindle highlights");
 })();
