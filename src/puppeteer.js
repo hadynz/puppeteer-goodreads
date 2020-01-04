@@ -8,7 +8,7 @@ const loginToGoodreads = async (browser, email, password) => {
   await page.type("#user_email", email);
   await page.type("#user_password", password);
   await page.click('[name="next"]');
-  await page.waitForSelector(".gr-newsfeed__title");
+  await page.waitForSelector("nav.siteHeader__primaryNavInline");
 };
 
 const scrapeListOfBooks = async browser => {
