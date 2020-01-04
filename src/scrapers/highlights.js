@@ -1,5 +1,5 @@
-module.exports = page => ({
-  scrapeHighlightsFromPageUrl: async () => {
+module.exports = {
+  scrapeHighlightsFromPageUrl: async page => {
     const notes = await page.$$eval(".js-readingNote", notesEl =>
       notesEl.map(noteEl => {
         try {
@@ -22,7 +22,7 @@ module.exports = page => ({
     );
     return notes.filter(n => n);
   },
-  scrapePaginationUrls: async baseUrl => {
+  scrapePaginationUrls: async (page, baseUrl) => {
     const paginationIndices = await page.$$eval(
       ".readingNotesPagination a:not([class])",
       anchors => anchors.map(anchor => anchor.innerText)
@@ -39,7 +39,7 @@ module.exports = page => ({
       (x, i) => `${baseUrl}&page=${i + 2}`
     );
   },
-  scrapeUserId: async () => {
+  scrapeUserId: async page => {
     const topLevelMenuLinks = await page.$$eval(
       "nav.siteHeader__primaryNavInline a.siteHeader__topLevelLink",
       anchors => anchors.map(anchor => anchor.getAttribute("href"))
@@ -47,4 +47,4 @@ module.exports = page => ({
 
     return topLevelMenuLinks[1].split("/").slice(-1)[0];
   }
-});
+};

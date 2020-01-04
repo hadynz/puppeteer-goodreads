@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const scraper = require("../src/scrapers/highlights")(page);
+const scraper = require("../src/scrapers/highlights");
 
 const loadHtmlFromFile = async fileName => {
   const html = fs.readFileSync(fileName, "utf8");
@@ -13,7 +13,7 @@ describe("Scrape kindle highlights for a given book", () => {
   it("standard kindle highlight is scraped accurately", async () => {
     await loadHtmlFromFile("./tests/assets/fragment.highlight.html");
 
-    const highlights = await scraper.scrapeHighlightsFromPageUrl();
+    const highlights = await scraper.scrapeHighlightsFromPageUrl(page);
 
     expect(highlights).toHaveLength(1);
     expect(highlights[0]).toEqual({
@@ -29,7 +29,7 @@ describe("Scrape kindle highlights for a given book", () => {
   it("kindle highlight with more link is scraped accurately", async () => {
     await loadHtmlFromFile("./tests/assets/fragment.highlight-more.html");
 
-    const highlights = await scraper.scrapeHighlightsFromPageUrl();
+    const highlights = await scraper.scrapeHighlightsFromPageUrl(page);
     expect(highlights).toHaveLength(1);
     expect(highlights[0]).toEqual({
       annotationId: "a1JIMM1S64WZYN%7C-0-%7C",
@@ -44,7 +44,7 @@ describe("Scrape kindle highlights for a given book", () => {
   it("ignore an empty kindle highlight from results", async () => {
     await loadHtmlFromFile("./tests/assets/fragment.highlight-empty.html");
 
-    const highlights = await scraper.scrapeHighlightsFromPageUrl();
+    const highlights = await scraper.scrapeHighlightsFromPageUrl(page);
     expect(highlights).toHaveLength(0);
   });
 });
@@ -54,7 +54,7 @@ describe("Scrape highlights pagination for a given book", () => {
     await loadHtmlFromFile("./tests/assets/fragment.pagination.html");
 
     const url = "https://www.googreads.com/book1?ref=abp";
-    const paginationList = await scraper.scrapePaginationUrls(url);
+    const paginationList = await scraper.scrapePaginationUrls(page, url);
     expect(paginationList).toHaveLength(3);
     expect(paginationList[0]).toBe(`${url}&page=2`);
     expect(paginationList[1]).toBe(`${url}&page=3`);
@@ -65,7 +65,7 @@ describe("Scrape highlights pagination for a given book", () => {
     await loadHtmlFromFile("./tests/assets/fragment.pagination-ellipsis.html");
 
     const url = "https://www.googreads.com/book1?ref=abp";
-    const paginationList = await scraper.scrapePaginationUrls(url);
+    const paginationList = await scraper.scrapePaginationUrls(page, url);
     expect(paginationList).toHaveLength(5);
     expect(paginationList[0]).toBe(`${url}&page=2`);
     expect(paginationList[1]).toBe(`${url}&page=3`);
@@ -78,7 +78,7 @@ describe("Scrape highlights pagination for a given book", () => {
     await loadHtmlFromFile("./tests/assets/fragment.pagination-none.html");
 
     const url = "https://www.googreads.com/book1?ref=abp";
-    const paginationList = await scraper.scrapePaginationUrls(url);
+    const paginationList = await scraper.scrapePaginationUrls(page, url);
     expect(paginationList).toHaveLength(0);
   });
 });
@@ -87,7 +87,7 @@ describe("Scrape logged in user id", () => {
   it("parse user id from navigation header links", async () => {
     await loadHtmlFromFile("./tests/assets/fragment.header.html");
 
-    const id = await scraper.scrapeUserId();
+    const id = await scraper.scrapeUserId(page);
     expect(id).toBe("70559316");
   });
 });

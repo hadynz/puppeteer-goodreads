@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 require("dotenv").config();
 
-const Scraper = require("./scrapers/highlights");
+const scraper = require("./scrapers/highlights");
 
 const loginToGoodreads = async (browser, email, password) => {
   const page = await browser.newPage();
@@ -16,7 +16,7 @@ const loginToGoodreads = async (browser, email, password) => {
 };
 
 const scrapeListOfBooks = async page => {
-  const userId = await Scraper(page).scrapeUserId();
+  const userId = await scraper.scrapeUserId(page);
   const url = `https://www.goodreads.com/notes/${userId}/load_more`;
 
   const [response] = await Promise.all([
@@ -38,14 +38,14 @@ const scrapeListOfBooks = async page => {
 const scrapeAllHighlightsForBook = async (page, book) => {
   await page.goto(book.bookUrl);
 
-  const nextPages = await Scraper(page).scrapePaginationUrls(book.bookUrl);
-  let highlights = await Scraper(page).scrapeHighlightsFromPageUrl();
+  const nextPages = await scraper.scrapePaginationUrls(page, book.bookUrl);
+  let highlights = await scraper.scrapeHighlightsFromPageUrl(page);
 
   for (const pageUrl of nextPages) {
     await page.goto(pageUrl);
     await page.waitForSelector("#allHighlightsAndNotes");
 
-    const nextHighlights = await Scraper(page).scrapeHighlightsFromPageUrl();
+    const nextHighlights = await scraper.scrapeHighlightsFromPageUrl(page);
     highlights = highlights.concat(nextHighlights);
   }
 
