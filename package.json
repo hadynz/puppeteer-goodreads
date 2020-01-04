@@ -9,6 +9,7 @@
   "author": "Hady Osman <hadyos@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "puppeteer": "^2.0.0"
   },
   "devDependencies": {

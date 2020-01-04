@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+require("dotenv").config();
 
 const Scraper = require("./scrapers/highlights");
 
@@ -61,8 +62,8 @@ const scrapeAllHighlightsForBook = async (page, book) => {
 
   const page = await loginToGoodreads(
     browser,
-    "hadyos@gmail.com",
-    "@0wt!*%1^uk2@IMu"
+    process.env.GOODREADS_LOGIN,
+    process.env.GOODREADS_PASSWORD
   );
 
   const books = await scrapeListOfBooks(page);
