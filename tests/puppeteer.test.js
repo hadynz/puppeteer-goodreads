@@ -55,11 +55,10 @@ describe("Scrape highlights pagination for a given book", () => {
 
     const url = "https://www.googreads.com/book1?ref=abp";
     const paginationList = await scraper.scrapePaginationUrls(url);
-    expect(paginationList).toHaveLength(4);
-    expect(paginationList[0]).toBe(`${url}&page=1`);
-    expect(paginationList[1]).toBe(`${url}&page=2`);
-    expect(paginationList[2]).toBe(`${url}&page=3`);
-    expect(paginationList[3]).toBe(`${url}&page=4`);
+    expect(paginationList).toHaveLength(3);
+    expect(paginationList[0]).toBe(`${url}&page=2`);
+    expect(paginationList[1]).toBe(`${url}&page=3`);
+    expect(paginationList[2]).toBe(`${url}&page=4`);
   });
 
   it("pagination bar with ellipsis", async () => {
@@ -67,13 +66,12 @@ describe("Scrape highlights pagination for a given book", () => {
 
     const url = "https://www.googreads.com/book1?ref=abp";
     const paginationList = await scraper.scrapePaginationUrls(url);
-    expect(paginationList).toHaveLength(6);
-    expect(paginationList[0]).toBe(`${url}&page=1`);
-    expect(paginationList[1]).toBe(`${url}&page=2`);
-    expect(paginationList[2]).toBe(`${url}&page=3`);
-    expect(paginationList[3]).toBe(`${url}&page=4`);
-    expect(paginationList[4]).toBe(`${url}&page=5`);
-    expect(paginationList[5]).toBe(`${url}&page=6`);
+    expect(paginationList).toHaveLength(5);
+    expect(paginationList[0]).toBe(`${url}&page=2`);
+    expect(paginationList[1]).toBe(`${url}&page=3`);
+    expect(paginationList[2]).toBe(`${url}&page=4`);
+    expect(paginationList[3]).toBe(`${url}&page=5`);
+    expect(paginationList[4]).toBe(`${url}&page=6`);
   });
 
   it("no pagination", async () => {
@@ -81,8 +79,7 @@ describe("Scrape highlights pagination for a given book", () => {
 
     const url = "https://www.googreads.com/book1?ref=abp";
     const paginationList = await scraper.scrapePaginationUrls(url);
-    expect(paginationList).toHaveLength(1);
-    expect(paginationList[0]).toBe(`${url}&page=1`);
+    expect(paginationList).toHaveLength(0);
   });
 });
 

@@ -22,17 +22,21 @@ module.exports = page => ({
     );
     return notes.filter(n => n);
   },
-  scrapePaginationUrls: async url => {
+  scrapePaginationUrls: async baseUrl => {
     const paginationIndices = await page.$$eval(
       ".readingNotesPagination a:not([class])",
       anchors => anchors.map(anchor => anchor.innerText)
     );
 
+    if (paginationIndices.length === 0) {
+      return [];
+    }
+
     const lastPageIndex = paginationIndices.slice(-1)[0] || 1;
 
     return Array.from(
-      { length: lastPageIndex },
-      (x, i) => `${url}&page=${i + 1}`
+      { length: lastPageIndex - 1 },
+      (x, i) => `${baseUrl}&page=${i + 2}`
     );
   },
   scrapeUserId: async () => {

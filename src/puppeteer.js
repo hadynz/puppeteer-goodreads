@@ -9,16 +9,13 @@ const loginToGoodreads = async (browser, email, password) => {
   await page.type("#user_password", password);
   await page.click('[name="next"]');
   await page.waitForSelector("nav.siteHeader__primaryNavInline");
+
+  return page;
 };
 
-const scrapeListOfBooks = async browser => {
-  const browserPages = await browser.pages();
-  const currentPage = browserPages.slice(-1)[0];
-
-  const userId = await Scraper(currentPage).scrapeUserId();
+const scrapeListOfBooks = async page => {
+  const userId = await Scraper(page).scrapeUserId();
   const url = `https://www.goodreads.com/notes/${userId}/load_more`;
-
-  const page = await browser.newPage();
 
   const [response] = await Promise.all([
     page.waitForResponse(url),
@@ -36,50 +33,45 @@ const scrapeListOfBooks = async browser => {
   }));
 };
 
-const scrapeHighlightsFromPageUrl = async (browser, url) => {
-  const page = await browser.newPage();
-  await page.goto(url);
+const scrapeAllHighlightsForBook = async (page, book) => {
+  await page.goto(book.bookUrl);
 
-  return Scraper(page).scrapeHighlightsFromPageUrl();
-};
+  const nextPages = await Scraper(page).scrapePaginationUrls(book.bookUrl);
+  let highlights = await Scraper(page).scrapeHighlightsFromPageUrl();
 
-const scrapeHighlightsPaginationPageUrls = async (browser, url) => {
-  const page = await browser.newPage();
-  await page.goto(url);
+  for (const pageUrl of nextPages) {
+    await page.goto(pageUrl);
+    await page.waitForSelector("#allHighlightsAndNotes");
 
-  return Scraper(page).scrapePaginationUrls(url);
+    const nextHighlights = await Scraper(page).scrapeHighlightsFromPageUrl();
+    highlights = highlights.concat(nextHighlights);
+  }
+
+  console.log(
+    `Book: ${book.title}. Authored by ${book.author}. Highlights: ${highlights.length}\n`,
+    highlights
+  );
 };
 
 (async () => {
   const browser = await puppeteer.launch({
     headless: false
-    // slowMo: 250,
-    // devtools: true
+    // slowMo: 250
   });
 
-  await loginToGoodreads(browser, "hadyos@gmail.com", "@0wt!*%1^uk2@IMu");
+  const page = await loginToGoodreads(
+    browser,
+    "hadyos@gmail.com",
+    "@0wt!*%1^uk2@IMu"
+  );
 
-  const books = await scrapeListOfBooks(browser);
+  const books = await scrapeListOfBooks(page);
 
-  for (let i = 2; i < 5; i++) {
+  for (let i = 4; i < 6; i++) {
     const book = books[i];
-    const pages = await scrapeHighlightsPaginationPageUrls(
-      browser,
-      book.bookUrl
-    );
 
-    let highlights = [];
-
-    for (const page of pages) {
-      highlights = highlights.concat(
-        await scrapeHighlightsFromPageUrl(browser, page)
-      );
-    }
-
-    console.log(
-      `Book: ${book.title}. Authored by ${book.author}. Highlights: ${highlights.length}`
-    );
-    console.log(highlights);
+    let newPage = await browser.newPage();
+    await scrapeAllHighlightsForBook(newPage, book);
   }
 
   await browser.close();
