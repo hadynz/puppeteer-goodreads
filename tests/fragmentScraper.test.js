@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const scraper = require("../src/scrapers/highlights");
+const scraper = require("../src/fragmentScraper");
 
 const loadHtmlFromFile = async fileName => {
   const html = fs.readFileSync(fileName, "utf8");

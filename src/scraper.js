@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 require("dotenv").config();
 
-const scraper = require("./scrapers/highlights");
+const scraper = require("./fragmentScraper");
 
 const loginToGoodreads = async (browser, email, password) => {
   const page = await browser.newPage();
