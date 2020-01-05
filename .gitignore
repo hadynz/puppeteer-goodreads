@@ -25,5 +25,9 @@ build/
 # Optional eslint cache
 .eslintcache
 
+# Possible outputs from `npm pack` command
+package
+*.tgz
+
 # Misc
 .DS_Store
