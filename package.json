@@ -9,6 +9,7 @@
   "license": "Apache-2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "repository": "github:hadynz/puppeteer-goodreads",
   "scripts": {
     "clean": "rimraf coverage build tmp",
     "build": "tsc -p tsconfig.release.json",
@@ -44,5 +45,11 @@
     "ts-jest": "~24.2.0",
     "tsutils": "~3.17.0",
     "typescript": "~3.7.4"
-  }
+  },
+  "keywords": [
+    "puppeteer",
+    "goodreads",
+    "automation",
+    "headless-chrome"
+  ]
 }
