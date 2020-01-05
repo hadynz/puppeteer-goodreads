@@ -8,7 +8,7 @@ import getHighlightsForBook from './lib/highlights';
 import listbooks from './lib/listbooks';
 import signin from './lib/signin';
 
-export default class PuppeteerGoodreads {
+class PuppeteerGoodreads {
   private _opts: ApiOptions;
   private _browser: Browser;
   private _user: User;
@@ -78,3 +78,5 @@ export default class PuppeteerGoodreads {
     this._user = null;
   }
 }
+
+export = PuppeteerGoodreads;
