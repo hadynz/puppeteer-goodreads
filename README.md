@@ -5,7 +5,9 @@
 
 # puppeteer-goodreads
 
-Scrapes private Kindle highlights for a Goodreads user using automation by headless chrome
+Scrapes private Kindle highlights for a Goodreads user using automation by headless chrome.
+
+This module was built using the excellent [node-typescript-boilerplate](node-typescript-boilerplate).
 
 ## Install
 
