@@ -1,4 +1,6 @@
 <p>
+  <a href="https://github.com/hadynz/puppeteer-goodreads/actions"><img src="https://github.com/hadynz/puppeteer-goodreads/workflows/Node CI/badge.svg" alt="actions status"></a>
+  <a href="https://badge.fury.io/js/puppeteer-goodreads"><img src="https://badge.fury.io/js/puppeteer-goodreads.svg" alt="npm version" height="20"></a>
   <a href="https://twitter.com/intent/follow?screen_name=hadynz"><img align="right" src="https://img.shields.io/twitter/follow/hadynz.svg?style=social&label=Follow%20@hadynz" alt="Follow on Twitter"></a>
 </p>
 
