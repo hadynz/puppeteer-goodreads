@@ -1,8 +1,8 @@
+import setPageContentFromFile from './util/setPageContentFromFile';
 import {
   scrapeHighlightsFromPageUrl,
   scrapePaginationUrls,
 } from '../src/lib/highlights';
-import setPageContentFromFile from './util/setPageContentFromFile';
 
 describe('Scrape kindle highlights for a given book', () => {
   it('standard kindle highlight is scraped accurately', async () => {
@@ -22,9 +22,12 @@ describe('Scrape kindle highlights for a given book', () => {
   });
 
   it('kindle highlight with more link is scraped accurately', async () => {
-    await setPageContentFromFile('./__tests__/assets/fragment.highlight-more.html');
+    await setPageContentFromFile(
+      './__tests__/assets/fragment.highlight-more.html',
+    );
 
     const highlights = await scrapeHighlightsFromPageUrl(page);
+
     expect(highlights).toHaveLength(1);
     expect(highlights[0]).toEqual({
       annotationId: 'a1JIMM1S64WZYN%7C-0-%7C',
@@ -37,9 +40,12 @@ describe('Scrape kindle highlights for a given book', () => {
   });
 
   it('ignore an empty kindle highlight from results', async () => {
-    await setPageContentFromFile('./__tests__/assets/fragment.highlight-empty.html');
+    await setPageContentFromFile(
+      './__tests__/assets/fragment.highlight-empty.html',
+    );
 
     const highlights = await scrapeHighlightsFromPageUrl(page);
+
     expect(highlights).toHaveLength(0);
   });
 });
@@ -50,6 +56,7 @@ describe('Scrape highlights pagination for a given book', () => {
 
     const url = 'https://www.googreads.com/book1?ref=abp';
     const paginationList = await scrapePaginationUrls(page, url);
+
     expect(paginationList).toHaveLength(3);
     expect(paginationList[0]).toBe(`${url}&page=2`);
     expect(paginationList[1]).toBe(`${url}&page=3`);
@@ -63,6 +70,7 @@ describe('Scrape highlights pagination for a given book', () => {
 
     const url = 'https://www.googreads.com/book1?ref=abp';
     const paginationList = await scrapePaginationUrls(page, url);
+
     expect(paginationList).toHaveLength(5);
     expect(paginationList[0]).toBe(`${url}&page=2`);
     expect(paginationList[1]).toBe(`${url}&page=3`);
@@ -72,10 +80,13 @@ describe('Scrape highlights pagination for a given book', () => {
   });
 
   it('no pagination', async () => {
-    await setPageContentFromFile('./__tests__/assets/fragment.pagination-none.html');
+    await setPageContentFromFile(
+      './__tests__/assets/fragment.pagination-none.html',
+    );
 
     const url = 'https://www.googreads.com/book1?ref=abp';
     const paginationList = await scrapePaginationUrls(page, url);
+
     expect(paginationList).toHaveLength(0);
   });
 });
