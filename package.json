@@ -5,8 +5,21 @@
   "engines": {
     "node": ">= 12.13 <13"
   },
+  "author": "Hady Osman <hadyos@gmail.com>",
+  "license": "Apache-2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "scripts": {
+    "clean": "rimraf coverage build tmp",
+    "build": "tsc -p tsconfig.release.json",
+    "build:watch": "tsc -w -p tsconfig.release.json",
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "npm run lint && jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "puppeteer": "^2.0.0"
+  },
   "devDependencies": {
     "@types/expect-puppeteer": "^3.3.3",
     "@types/jest": "~24.0.25",
@@ -26,18 +39,5 @@
     "tslib": "~1.10.0",
     "tsutils": "~3.17.0",
     "typescript": "~3.7.4"
-  },
-  "scripts": {
-    "clean": "rimraf coverage build tmp",
-    "build": "tsc -p tsconfig.release.json",
-    "build:watch": "tsc -w -p tsconfig.release.json",
-    "lint": "eslint . --ext .ts,.tsx",
-    "test": "npm run lint && jest --coverage",
-    "test:watch": "jest --watch"
-  },
-  "author": "Hady Osman <hadyos@gmail.com>",
-  "license": "Apache-2.0",
-  "dependencies": {
-    "puppeteer": "^2.0.0"
   }
 }
