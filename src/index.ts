@@ -30,12 +30,14 @@ export default class PuppeteerGoodreads {
     if (!this._browser) {
       this._browser = await launch(this._opts.puppeteer);
     }
+
     return this._browser;
   }
 
   public async signin(username: string, password: string): Promise<void> {
-    if (this.isAuthenticated)
+    if (this.isAuthenticated) {
       throw new Error('"signin" requires no authentication');
+    }
 
     const browser = await this.browser();
     this._landingPage = await signin(browser, username, password);
@@ -47,19 +49,21 @@ export default class PuppeteerGoodreads {
   }
 
   public async getMyBooks(): Promise<Array<Book>> {
-    if (!this.isAuthenticated)
+    if (!this.isAuthenticated) {
       throw new Error(
         'User must first be logged-in. Use the "signin" function first.',
       );
+    }
 
     return await listbooks(this._landingPage);
   }
 
   public async getBookHighlights(book: Book): Promise<Array<Highlight>> {
-    if (!this.isAuthenticated)
+    if (!this.isAuthenticated) {
       throw new Error(
         'User must first be logged-in. Use the "signin" function first.',
       );
+    }
 
     const browser = await this.browser();
 
