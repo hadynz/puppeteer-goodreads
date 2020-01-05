@@ -1,4 +1,5 @@
 <p>
+  <a href="https://travis-ci.com/hadynz/puppeteer-goodreads"><img src="https://travis-ci.com/hadynz/puppeteer-goodreads.svg?branch=master" alt="Build Status"></a>
   <a href="https://twitter.com/intent/follow?screen_name=hadynz"><img align="right" src="https://img.shields.io/twitter/follow/hadynz.svg?style=social&label=Follow%20@hadynz" alt="Follow on Twitter"></a>
 </p>
 
