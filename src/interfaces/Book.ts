@@ -5,5 +5,3 @@ export interface Book {
   imageUrl: string;
   bookUrl: string;
 }
-
-
