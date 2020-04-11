@@ -8,7 +8,7 @@
 
 Scrapes private Kindle highlights for a Goodreads user using automation by headless chrome.
 
-This module was built using the excellent [node-typescript-boilerplate](node-typescript-boilerplate).
+This module was built using the excellent [node-typescript-boilerplate].
 
 ## Install
 
