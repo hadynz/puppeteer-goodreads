@@ -42,3 +42,5 @@ await goodreads.close();
 ## License
 
 MIT © [Hady Osman](https://github.com/hadynz)
+
+[node-typescript-boilerplate]: https://github.com/jsynowiec/node-typescript-boilerplate
