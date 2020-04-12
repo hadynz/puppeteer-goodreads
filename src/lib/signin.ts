@@ -1,10 +1,10 @@
 import { Browser, Page } from 'puppeteer';
 
-export default async (
+export default async function signin(
   browser: Browser,
   username: string,
   password: string,
-): Promise<Page> => {
+): Promise<Page> {
   const page = await browser.newPage();
   await page.goto('https://www.goodreads.com/user/sign_in');
   await page.type('#user_email', username);
@@ -16,4 +16,4 @@ export default async (
   ]);
 
   return page;
-};
+}

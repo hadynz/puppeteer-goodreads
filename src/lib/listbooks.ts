@@ -12,7 +12,7 @@ export async function scrapeUserId(page: Page): Promise<string> {
   return topLevelMenuLinks[1].split('/').slice(-1)[0];
 }
 
-export default async (page: Page): Promise<Array<Book>> => {
+export default async function listbooks(page: Page): Promise<Array<Book>> {
   const userId = await scrapeUserId(page);
   const url = `https://www.goodreads.com/notes/${userId}/load_more`;
 
@@ -30,4 +30,4 @@ export default async (page: Page): Promise<Array<Book>> => {
     imageUrl: book.imageUrl,
     bookUrl: book.readingNotesUrl,
   }));
-};
+}
