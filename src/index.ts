@@ -79,4 +79,4 @@ class PuppeteerGoodreads {
   }
 }
 
-export = PuppeteerGoodreads;
+export { PuppeteerGoodreads, ApiOptions, Book, Highlight };

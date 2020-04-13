@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-goodreads",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Scrapes private Kindle highlights for a Goodreads user using automation by headless chrome",
   "engines": {
     "node": ">= 12.13 <13"

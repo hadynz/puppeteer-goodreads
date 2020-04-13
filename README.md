@@ -21,7 +21,11 @@ npm install --save puppeteer-goodreads
 This example signs into a [Goodreads](https://goodreads.com) account.
 
 ```js
-const PuppeteerGoodreads = require('puppeteer-goodreads')
+// Import using CommonJS `require`
+const { PuppeteerGoodreads } = require('puppeteer-goodreads')
+
+// Import using Typescript. Module interfaces are also available for your consumption
+import { PuppeteerGoodreads, Book, Highlight } from 'puppeteer-goodreads';
 
 const defaultOptions = { headless: false, /* ... */ };
 
