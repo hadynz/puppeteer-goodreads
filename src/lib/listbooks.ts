@@ -1,3 +1,4 @@
+import * as url from 'url';
 import { Page } from 'puppeteer';
 
 import { Book } from '../interfaces/Book';
@@ -9,7 +10,9 @@ export async function scrapeUserId(page: Page): Promise<string> {
     anchors => anchors.map(anchor => anchor.getAttribute('href')),
   );
 
-  return topLevelMenuLinks[1].split('/').slice(-1)[0];
+  const hrefWithUserId = url.parse(topLevelMenuLinks[1]).pathname;
+
+  return hrefWithUserId.split('/').slice(-1)[0];
 }
 
 export default async function listbooks(page: Page): Promise<Array<Book>> {

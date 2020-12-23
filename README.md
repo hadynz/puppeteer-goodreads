@@ -32,7 +32,7 @@ const defaultOptions = { headless: false, /* ... */ };
 const goodreads = new PuppeteerGoodreads({ puppeteer: defaultOptions });
 
 /* Logs in to Goodreads with credentials using a headless chrome brwoser session */
-await goodreads.signin('xxx', 'xxx');
+const success = await goodreads.signin('xxx', 'xxx');
 
 /* Returns list of books with Kindle highlights for currently logged in Goodreads user */
 const books = await goodreads.getMyBooks();

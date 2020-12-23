@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-goodreads",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Scrapes private Kindle highlights for a Goodreads user using automation by headless chrome",
   "engines": {
     "node": ">= 12.13 <13"
@@ -12,13 +12,14 @@
   "repository": "github:hadynz/puppeteer-goodreads",
   "scripts": {
     "clean": "rimraf coverage build tmp package *.tgz",
+    "dev": "ts-node src/cli.ts",
     "build": "tsc -p tsconfig.release.json",
     "build:watch": "tsc -w -p tsconfig.release.json",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "npm run lint && jest --coverage",
     "test:watch": "jest --watch",
-    "prepublishOnly" : "npm test",
-    "prepare" : "npm run build"
+    "prepublishOnly": "npm test",
+    "prepare": "npm run build"
   },
   "files": [
     "build"

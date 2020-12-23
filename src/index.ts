@@ -34,18 +34,25 @@ class PuppeteerGoodreads {
     return this._browser;
   }
 
-  public async signin(username: string, password: string): Promise<void> {
+  public async signin(username: string, password: string): Promise<boolean> {
     if (this.isAuthenticated) {
       throw new Error('"signin" requires no authentication');
     }
 
     const browser = await this.browser();
-    this._landingPage = await signin(browser, username, password);
 
-    this._user = {
-      username: username,
-      password: password,
-    };
+    const { page, success } = await signin(browser, username, password);
+
+    if (success) {
+      this._landingPage = page;
+
+      this._user = {
+        username: username,
+        password: password,
+      };
+    }
+
+    return success;
   }
 
   public async getMyBooks(): Promise<Array<Book>> {
